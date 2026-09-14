@@ -6,6 +6,7 @@ It may change. On authentication/schema errors, leave the previous card intact.
 No third-party dependencies; credentials never leave this Mac except to ChatGPT.
 """
 import argparse
+import colorsys
 import datetime as dt
 import html
 import json
@@ -111,23 +112,35 @@ def level(tokens, peak):
     return 4 if tokens > peak * .75 else 3 if tokens > peak * .5 else 2 if tokens > peak * .25 else 1
 
 
+def rainbow(position, dark=False):
+    # Hue advances across the visible active dates; intensity encodes usage.
+    hue = (8 + 272 * max(0, min(1, position))) / 360
+    rgb = colorsys.hls_to_rgb(hue, .65 if dark else .52, .78)
+    return '#' + ''.join(f'{round(channel * 255):02x}' for channel in rgb)
+
+
 def render(data, dark=False):
     if dark:
         bg, border, fg, muted, panel = '#0d1117', '#30363d', '#e6edf3', '#919ba8', '#161b22'
-        colors = ['#21262d', '#213d68', '#315c9d', '#4881cf', '#79b0ff']
+        empty = '#21262d'
     else:
         bg, border, fg, muted, panel = '#ffffff', '#dce2ea', '#1f2937', '#687386', '#f7f9fc'
-        colors = ['#eef1f5', '#ceddf6', '#9abbed', '#6396e1', '#316bc4']
+        empty = '#eef1f5'
+    intensities = (0, .38, .58, .79, 1)
     as_of = dt.date.fromisoformat(data['stats_as_of'])
     sunday = as_of - dt.timedelta(days=(as_of.weekday() + 1) % 7)
     start = sunday - dt.timedelta(weeks=51)
     values = {row['date']: row['tokens'] for row in data['daily']}
     peak = max((v for k, v in values.items() if start.isoformat() <= k <= as_of.isoformat()), default=0)
+    active = [dt.date.fromisoformat(k) for k, v in values.items()
+              if v > 0 and start.isoformat() <= k <= as_of.isoformat()]
+    first_active = min(active, default=start)
+    active_span = max(1, (max(active, default=as_of) - first_active).days)
     summary = data['summary']
     e = html.escape
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="900" height="356" viewBox="0 0 900 356" role="img" aria-labelledby="title desc">',
              '<title id="title">Codex token activity</title>',
-             f'<desc id="desc">Statistics as of {as_of}: {summary["lifetime_tokens"]:,} lifetime tokens, {summary["peak_daily_tokens"]:,} peak daily tokens, {summary["current_streak_days"]} day current streak. Daily heatmap with exact counts in cell titles.</desc>',
+             f'<desc id="desc">Statistics as of {as_of}: {summary["lifetime_tokens"]:,} lifetime tokens, {summary["peak_daily_tokens"]:,} peak daily tokens, {summary["current_streak_days"]} day current streak. Rainbow hue progresses across active dates; color intensity indicates daily token usage. Exact counts appear in cell titles.</desc>',
              f'<rect x="0.5" y="0.5" width="899" height="355" rx="18" fill="{bg}" stroke="{border}"/>',
              '<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">']
 
@@ -162,12 +175,17 @@ def render(data, dark=False):
             continue
         tokens = values.get(day.isoformat(), 0)
         x, y = grid_x + index // 7 * step, grid_y + index % 7 * step
-        parts.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" rx="3" fill="{colors[level(tokens, peak)]}"><title>{day.isoformat()}: {tokens:,} tokens</title></rect>')
+        color = rainbow((day - first_active).days / active_span, dark) if tokens else empty
+        opacity = intensities[level(tokens, peak)] if tokens else 1
+        parts.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" rx="3" fill="{color}" fill-opacity="{opacity}"><title>{day.isoformat()}: {tokens:,} tokens</title></rect>')
     text(28, 326, 'Statistics as of ' + as_of.isoformat(), 11)
     text(450, 326, 'Daily tokens · past 52 weeks', 11, muted, 400, 'text-anchor="middle"')
     text(732, 326, 'Less', 10)
-    for i, color in enumerate(colors):
-        parts.append(f'<rect x="{763+i*15}" y="317" width="11" height="11" rx="3" fill="{color}"/>')
+    stops = ''.join(f'<stop offset="{i / 6:.3f}" stop-color="{rainbow(i / 6, dark)}"/>' for i in range(7))
+    parts.append(f'<defs><linearGradient id="rainbow-key">{stops}</linearGradient></defs>')
+    for i, opacity in enumerate(intensities):
+        color = 'url(#rainbow-key)' if i else empty
+        parts.append(f'<rect x="{763+i*15}" y="317" width="11" height="11" rx="3" fill="{color}" fill-opacity="{opacity if i else 1}"/>')
     text(842, 326, 'More', 10)
     parts.append('</g></svg>')
     svg = '\n'.join(parts) + '\n'
