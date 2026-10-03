@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "source": "Codex profile statistics",
-  "stats_as_of": "2026-10-01",
+  "stats_as_of": "2026-10-02",
   "date_basis": "Source-provided dates; no timezone conversion",
   "summary": {
-    "lifetime_tokens": 2997990466,
+    "lifetime_tokens": 3130618407,
     "peak_daily_tokens": 248142663,
-    "current_streak_days": 46,
-    "longest_streak_days": 46
+    "current_streak_days": 47,
+    "longest_streak_days": 47
   },
   "daily": [
     {
@@ -337,6 +337,10 @@
     {
       "date": "2026-10-01",
       "tokens": 75646021
+    },
+    {
+      "date": "2026-10-02",
+      "tokens": 132627941
     }
   ]
 }
