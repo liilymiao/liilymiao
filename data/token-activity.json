@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": "Codex profile statistics",
-  "stats_as_of": "2026-10-02",
+  "stats_as_of": "2026-10-03",
   "date_basis": "Source-provided dates; no timezone conversion",
   "summary": {
     "lifetime_tokens": 3130618407,

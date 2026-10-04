@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="356" viewBox="0 0 900 356" role="img" aria-labelledby="title desc">
 <title id="title">Codex token activity</title>
-<desc id="desc">Statistics as of 2026-10-02: 3,130,618,407 lifetime tokens, 248,142,663 peak daily tokens, 47 day current streak. Rainbow hue progresses across active dates; color intensity indicates daily token usage. Exact counts appear in cell titles.</desc>
+<desc id="desc">Statistics as of 2026-10-03: 3,130,618,407 lifetime tokens, 248,142,663 peak daily tokens, 47 day current streak. Rainbow hue progresses across active dates; color intensity indicates daily token usage. Exact counts appear in cell titles.</desc>
 <rect x="0.5" y="0.5" width="899" height="355" rx="18" fill="#0d1117" stroke="#30363d"/>
 <g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif">
 <text x="28" y="39" font-size="17" fill="#e6edf3" font-weight="650" letter-spacing="1.3">TOKEN ACTIVITY</text>
@@ -400,7 +400,8 @@
 <rect x="842" y="231" width="11" height="11" rx="3" fill="#b060eb" fill-opacity="0.79"><title>2026-09-30: 144,095,910 tokens</title></rect>
 <rect x="842" y="246" width="11" height="11" rx="3" fill="#b760eb" fill-opacity="0.58"><title>2026-10-01: 75,646,021 tokens</title></rect>
 <rect x="842" y="261" width="11" height="11" rx="3" fill="#bd60eb" fill-opacity="0.79"><title>2026-10-02: 132,627,941 tokens</title></rect>
-<text x="28" y="326" font-size="11" fill="#919ba8" font-weight="400" >Statistics as of 2026-10-02</text>
+<rect x="842" y="276" width="11" height="11" rx="3" fill="#21262d" fill-opacity="1"><title>2026-10-03: 0 tokens</title></rect>
+<text x="28" y="326" font-size="11" fill="#919ba8" font-weight="400" >Statistics as of 2026-10-03</text>
 <text x="450" y="326" font-size="11" fill="#919ba8" font-weight="400" text-anchor="middle">Daily tokens · past 52 weeks</text>
 <text x="732" y="326" font-size="10" fill="#919ba8" font-weight="400" >Less</text>
 <defs><linearGradient id="rainbow-key"><stop offset="0.000" stop-color="#eb7360"/><stop offset="0.167" stop-color="#ebdc60"/><stop offset="0.333" stop-color="#92eb60"/><stop offset="0.500" stop-color="#60eb98"/><stop offset="0.667" stop-color="#60d6eb"/><stop offset="0.833" stop-color="#606deb"/><stop offset="1.000" stop-color="#bd60eb"/></linearGradient></defs>
