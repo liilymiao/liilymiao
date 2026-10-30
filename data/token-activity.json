@@ -4,10 +4,10 @@
   "stats_as_of": "2026-10-29",
   "date_basis": "Source-provided dates; no timezone conversion",
   "summary": {
-    "lifetime_tokens": 5636737334,
+    "lifetime_tokens": 5650259919,
     "peak_daily_tokens": 429873290,
-    "current_streak_days": 73,
-    "longest_streak_days": 73
+    "current_streak_days": 74,
+    "longest_streak_days": 74
   },
   "daily": [
     {
@@ -445,6 +445,10 @@
     {
       "date": "2026-10-28",
       "tokens": 14980318
+    },
+    {
+      "date": "2026-10-29",
+      "tokens": 13522585
     }
   ]
 }
